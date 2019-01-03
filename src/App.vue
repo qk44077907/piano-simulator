@@ -204,7 +204,7 @@
         //this.timer = null
       },
       activate(note) {
-        note = Number(note) -20
+        note = Number(note)
         if(this.activeKeys[note]){
           this.deactivate(note)
           this.$nextTick(()=>{
@@ -218,7 +218,7 @@
 
       },
       deactivate(note) {
-        note = Number(note) - 20
+        note = Number(note)
         this.$delete(this.activeKeys,note)
       },
       play() {
@@ -247,7 +247,6 @@
         soundfontUrl: "./soundfont/",
         instrument: "acoustic_grand_piano",
         onprogress: function(state, progress) {
-          console.log(state,progress);
           vm.loading = parseInt(progress * 100)
           if(progress == 1 && state == 'load'){
             vm.loadingDone = true
@@ -257,10 +256,10 @@
           let player = MIDI.Player
           player.addListener(function(data) {
             if(data.message === 144){
-              vm.activate(data.note)
+              vm.activate(data.note - 20)
             }
             if(data.message === 128){
-              vm.deactivate(data.note)
+              vm.deactivate(data.note - 20)
             }
           });
         }
@@ -299,6 +298,7 @@
     .progress{
       z-index: 50;
       height: 30px;
+      box-sizing: border-box;
       background-color: rgb(48, 48, 48);
       width: 100%;
       box-shadow: rgba(255, 255, 255, 0.4) 0px 1px inset;
