@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="loading" v-if="loading < 100">
+    <div class="loading" v-if="!loadingDone">
       loading resources... {{loading}}%
     </div>
     <div class="progress">
@@ -48,6 +48,7 @@
     data() {
       return {
         loading:0,
+        loadingDone:false,
         progress:0,
         timer:null,
         totalTime:0,
@@ -246,7 +247,11 @@
         soundfontUrl: "./soundfont/",
         instrument: "acoustic_grand_piano",
         onprogress: function(state, progress) {
+          console.log(state,progress);
           vm.loading = parseInt(progress * 100)
+          if(progress == 1 && state == 'load'){
+            vm.loadingDone = true
+          }
         },
         onsuccess: function() {
           let player = MIDI.Player
