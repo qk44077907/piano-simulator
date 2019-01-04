@@ -193,7 +193,12 @@
         this.startTime = +new Date()
         this.totalTime = MIDI.Player.endTime
         this.timer = setInterval(()=>{
-          this.progress = 100*(new Date() - this.startTime)/this.totalTime +'%'
+          let timeElapsed = (new Date() - this.startTime)
+          if(timeElapsed/this.totalTime >=1){
+            this.stopTimer()
+            return
+          }
+          this.progress = 100*timeElapsed/this.totalTime +'%'
         },20)
 
       },
